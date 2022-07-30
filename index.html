@@ -1,0 +1,465 @@
+<!DOCTYPE html>
+<html lang="zh-tw">
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Micro_Librarians</title>
+	<link rel="icon" href="/img/open-book.png">
+
+	<link rel="stylesheet" type="text/css" href="/mine/css/base.css">
+	
+	<!-- jq -->
+	<script src="/package/jquery-3.6/js/jquery-3.6.0.min.js"></script>
+	<!-- bs5 -->
+	<link rel="stylesheet" type="text/css" href="/package/bootstrap-5.1.1/css/bootstrap.min.css">
+	<script src="/package/bootstrap-5.1.1/js/bootstrap.bundle.min.js"></script>
+	<!-- base64 tool kit -->
+	<script src="/package/base64/js/base64.min.js"></script>
+	<!-- sweet alert -->
+	<script src="/package/sweetalert/js/sweetalert2.all.min.js"></script>
+
+</head>
+<body>
+
+	<div class="container-fluid">
+
+		<!-- Modal -->
+		<div class="modal fade" id="token-modal" tabindex="-1" aria-labelledby="token-modal-title" aria-hidden="true">
+			<div class="modal-dialog modal-lg">
+				<div class="modal-content overflow-hidden">
+					<div class="modal-header p-2 bg-info">
+						<h5 class="modal-title" id="token-modal-title">Token Details</h5>
+						<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+					</div>
+					<div class="modal-body py-0">
+						<div class="row py-1 border border-2 border-top-0 border-start-0 border-end-0">
+							<div class="col-6 d-flex justify-content-center border border-2 border-top-0 border-bottom-0 border-start-0">
+								<span id="rt-switch" class="fs-6 border border-4 border-info border-top-0 border-start-0 border-end-0 my-cursor-pointer" onclick="changeTokenInfoPage('rt');">
+									Refresh-token
+								</span>
+							</div>
+							<div class="col-6 d-flex justify-content-center">
+								<span id="at-switch" class="fs-6 my-cursor-pointer" onclick="changeTokenInfoPage('at');">
+									Access-token
+								</span>
+							</div>
+						</div>
+
+
+						<div id="rt-block" class="my-2 position-relative">
+							<span>Raw:</span>
+							<textarea class="raw-token form-control" disabled></textarea>
+							<div id="rt-info" class="row mt-3">
+								<div class="col-6 border border-2 border-dark border-top-0 border-bottom-0 border-start-0">
+									<div class="text-center">Token-headers</div>
+									<div class="overflow-auto" style="height:350px;">
+										<div class="mt-2">
+											<span>Sign-Algorithm:</span>
+											<input class="algo form-control" type="text" disabled>
+										</div>			
+									</div>
+								</div>
+								<div class="col-6">
+									<div class="text-center">Token-claims</div>
+									<div class="overflow-auto" style="height:350px;">
+										<div class="mt-2">
+											<span>Issuer:</span>
+											<input class="iss form-control" type="text" disabled>
+										</div>
+										<div class="mt-2">
+											<span>Expiration:</span>
+											<input class="exp form-control" type="text" disabled>
+										</div>
+										<div class="mt-2">
+											<span>Subject:</span>
+											<input class="sub form-control" type="text" disabled>
+										</div>
+										<div class="mt-2">
+											<span>UserId:</span>
+											<input class="uid form-control" type="text" disabled>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div id="at-block" class="my-2 d-none position-relative" style="left:1000px;">
+
+							<div class="d-flex justify-content-between">
+								<span>Raw:</span>
+								<div>
+									<button type="button" class="btn btn-primary py-0 mx-1 px-1  my-fs-14-px" onclick="refreshAT();">Refresh</button>
+									<button type="button" class="btn btn-warning py-0 mx-1 px-1  my-fs-14-px" onclick="forgeAT();">Forge</button>
+
+								</div>
+							</div>
+							<textarea class="raw-token form-control" disabled></textarea>
+							<div id="at-info" class="row mt-3">
+								<div class="col-6 border border-2 border-dark border-top-0 border-bottom-0 border-start-0">
+									<div class="text-center">Token-headers</div>
+									<div class="overflow-auto" style="height:350px;">
+										<div class="mt-2">
+											<span>Sign-Algorithm:</span>
+											<input class="algo form-control" type="text" disabled>
+										</div>
+									</div>
+								</div>
+								<div class="col-6">
+									<div class="text-center">Token-claims</div>
+									<div class="overflow-auto" style="height:350px;">
+										<div class="mt-2">
+											<span>Issuer:</span>
+											<input class="iss form-control" type="text" disabled>
+										</div>
+										<div class="mt-2">
+											<span>Expiration:</span>
+											<input class="exp form-control" type="text" disabled>
+										</div>
+										<div class="mt-2">
+											<span>Subject:</span>
+											<input class="sub form-control" type="text" disabled>
+										</div>
+										<div class="mt-2">
+											<span>UserId:</span>
+											<input class="uid form-control" type="text" disabled>
+										</div>
+										<div class="mt-2">
+											<span>UserName:</span>
+											<input class="uname form-control" type="text" disabled>
+										</div>
+										<div class="mt-2">
+											<span>UserRole:</span>
+											<input class="urole form-control" type="text" disabled>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		
+		<!-- Modal2 -->
+		<div class="modal fade" id="book-info-modal" tabindex="-1" aria-labelledby="book-info-modal-label" aria-hidden="true">
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-header p-2 bg-info">
+						<h5 class="modal-title" id="book-info-modal-label">Book detaile</h5>
+						<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+					</div>
+					<div class="modal-body p-2">
+
+						<div id="book-info-block" class="row">
+							<div class="col-12">
+								<div class="my-fs-18-px text-truncate">id</div>
+								<input id="book-id" type="text" class="form-control p-0" disabled>
+								<div class="my-fs-18-px text-truncate">mainTitle</div>
+								<input id="book-title" type="text" class="form-control p-0" disabled>
+							</div>
+							<div class="col-6">
+								<div class="my-fs-18-px text-truncate">type</div>
+								<input id="book-type" type="text" class="form-control p-0" disabled>
+							</div>
+							<div class="col-6">
+								<div class="my-fs-18-px text-truncate">acquiredYear</div>
+								<input id="book-acquiredYear" type="text" class="form-control p-0" disabled>
+							</div>
+							<div class="col-6">
+								<div class="my-fs-18-px text-truncate">owner</div>
+								<input id="book-owner" type="text" class="form-control p-0" disabled>
+							</div>
+							<div class="col-6">
+								<div class="my-fs-18-px text-truncate">available</div>
+								<input id="book-available" type="text" class="form-control p-0" disabled>
+							</div>
+							<div class="col-6">
+								<div class="my-fs-18-px text-truncate">creator</div>
+								<input id="book-creator" type="text" class="form-control p-0" disabled>
+							</div>
+							<div class="col-6">
+								<div class="my-fs-18-px text-truncate">createdYear</div>
+								<input id="book-createdYear" type="text" class="form-control p-0" disabled>
+							</div>
+							<div class="col-6">
+								<div class="my-fs-18-px text-truncate">imageUrl</div>
+								<input id="book-imageUrl" type="text" class="form-control p-0" disabled>
+							</div>
+							<div class="col-6">
+								<div class="my-fs-18-px text-truncate">originalUrl</div>
+								<input id="book-originalUrl" type="text" class="form-control p-0" disabled>
+							</div>
+							<div class="col-6">
+								<div class="my-fs-18-px text-truncate">ownerCollectionsWebsite</div>
+								<input id="book-ownerCollectionsWebsite" type="text" class="form-control p-0" disabled>
+							</div>
+							<div class="col-6">
+								<div class="my-fs-18-px text-truncate">ownerWebsite</div>
+								<input id="book-ownerWebsite" type="text" class="form-control p-0" disabled>
+							</div>
+							<div class="col-12">
+								<div class="my-fs-18-px text-truncate">description</div>
+								<textarea id="book-description" class="form-control" disabled></textarea>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		
+		<div id="auth-and-result" class="row mt-5">
+
+			<div id="auth-block" class="col-lg-5 col-12 position-relative">
+
+				<div class="px-1 border border-2 border-dark position-absolute top-0 start-50 translate-middle bg-white text-center fs-6">
+					Authentication
+				</div>
+
+				<div class="justify-content-between mx-2 p-3 my-border-dashed border-3 border-dark">
+
+					<div id="auth-block-top" class="row my-2">
+						<div id="login-block" class="col-6 bg-success bg-opacity-75 rounded">
+							<div class="text-center">-Login Role-</div>
+							<button type="button" class="btn btn-sm btn-dark w-100 my-2 text-truncate my-fs-18-px" onclick="loginFunc('admin');">
+								Admin
+							</button>
+							<button type="button" class="btn btn-sm btn-dark w-100 my-2 text-truncate my-fs-18-px" onclick="loginFunc('advanced');">
+								Advanced
+							</button>
+							<button type="button" class="btn btn-sm btn-dark w-100 my-2 text-truncate my-fs-18-px" onclick="loginFunc('normal');">
+								Normal
+							</button>
+						</div>
+						
+						<div id="info-block" class="col-6">
+							<div class="text-truncate">userId</div>
+							<input id="user-id" class="form-control" type="text" disabled>					
+							<div class="text-truncate">userName</div>
+							<input id="user-name" class="form-control" type="text" disabled>	
+							<div class="text-truncate">userRole</div>
+							<input id="user-role" class="form-control" type="text" disabled>	
+						</div>
+					</div>
+					<div id="auth-block-bottom" class="row mt-4">
+						<span class="col-6">
+							<button id="token-detail-btn" type="button" class="btn btn-sm btn-info text-truncate my-fs-18-px w-100" onclick="showTokenDetails();" disabled>
+								Token Detail
+							</button>
+						</span>
+						<span class="col-6">
+							<button id="logout-btn" type="button" class="btn btn-sm btn-warning text-truncate my-fs-18-px w-100" onclick="logoutFunc();" disabled>
+								Logout
+							</button>
+						</span>
+						
+						
+					</div>
+
+
+				</div>
+			</div>
+
+			<div id="result-block" class="mt-lg-0 mt-5 col-lg-7 col-12 position-relative">
+
+				<div class="px-1 border border-2 border-dark position-absolute top-0 start-50 translate-middle bg-white text-center fs-6">
+					Result
+				</div>
+
+				<div class="mx-2 p-3 my-border-dashed border-3 border-dark">
+					<div class="row">
+						<div class="col-6">
+							<div class="my-fs-18-px text-truncate">Server-name</div>
+							<input id="res-sname" type="text" class="form-control p-0" disabled>
+						</div>
+						<div class="col-6">
+							<div class="my-fs-18-px text-truncate">Location</div>
+							<input id="res-loc" type="text" class="form-control p-0" disabled>
+						</div>
+					</div>
+
+					<div class="row">
+						<div class="col-sm-3 col-6">
+							<div class="my-fs-18-px text-truncate">nowPage</div>
+							<input id="res-now-p" type="text" class="form-control p-0" disabled>
+						</div>
+						<div class="col-sm-3 col-6">
+							<div class="my-fs-18-px text-truncate">pageSize</div>
+							<input id="res-p-size" type="text" class="form-control p-0" disabled>
+						</div>
+						<div class="col-sm-3 col-6">
+							<div class="my-fs-18-px text-truncate">totalPages</div>
+							<input id="res-total-p" type="text" class="form-control p-0" disabled>
+						</div>
+						<div class="col-sm-3 col-6">
+							<div class="my-fs-18-px text-truncate">totalElements</div>
+							<input id="res-total-e" type="text" class="form-control p-0" disabled>
+						</div>
+					</div>
+
+					<div id="book-block" class="mt-2 p-2 bg-secondary rounded-3 bg-opacity-25 d-flex overflow-auto" style="height:180px;">
+					</div>			
+
+				</div>
+			</div>
+
+		</div>
+
+
+		<div id="book-dashboard" class="position-relative mt-5">
+			<div class="col px-1 border border-2 border-dark position-absolute top-0 start-50 translate-middle bg-white text-center fs-5">
+				Book-API dashboard
+			</div>
+	
+			<div id="api-row" class="row justify-content-center mx-2 my-3 pt-4 my-border-dashed border-3 border-dark">
+	
+				<div class="col px-3 bg-primary m-3 text-dark bg-opacity-50 position-relative border border-primary border-2 my-api-width-range">
+					<div class="rounded-circle px-1 border border-1 border-dark position-absolute top-0 start-100 translate-middle bg-warning text-center my-fs-14-px">
+						GET
+					</div>
+					<div class="d-flex justify-content-center">
+						<button type="button" class="btn btn-sm btn-dark my-2 text-truncate my-fs-18-px" onclick="queryAllBooks();">
+							queryAllBooks
+						</button>
+					</div>
+					<div class="py-3 px-2 my-2 border border-3 border-dark position-relative" style="height:210px;">
+						<div class="px-1 rounded-3 border border-2 border-dark position-absolute top-0 translate-middle bg-light text-center my-fs-14-px">Param</div>
+						<div id="all-books-param" class="overflow-auto h-100">
+							<input type="text" class="par-1 form-control my-2" placeholder="nowPage">
+							<input type="text" class="par-2 form-control my-2" placeholder="pageSize">
+							<select class="par-3 form-select form-select-sm">
+								<option selected disabled>sortRule</option>
+								<option value="asc">asc</option>
+								<option value="desc">desc</option>
+							</select>
+						</div>
+					</div>
+				</div>
+	
+	
+				<div class="col px-3 bg-primary m-3 text-dark bg-opacity-50 position-relative border border-primary border-2 my-api-width-range">
+					<div class="rounded-circle px-1 border border-1 border-dark position-absolute top-0 start-100 translate-middle bg-warning text-center my-fs-14-px">
+						GET
+					</div>
+					<div class="d-flex justify-content-center">
+						<button type="button" class="btn btn-sm btn-dark my-2 text-truncate my-fs-18-px" onclick="queryBookById();">
+							queryBookById
+						</button>
+					</div>
+					<div class="py-3 px-2 my-2 border border-3 border-dark position-relative" style="height:210px;">
+						<div class="px-1 rounded-3 border border-2 border-dark position-absolute top-0 translate-middle bg-light text-center my-fs-14-px">Param</div>
+						<div id="book-byid-param" class="overflow-auto h-100">
+							<input type="text" class="par-1 form-control my-2" placeholder="bookId">
+						</div>
+					</div>
+				</div>
+	
+	
+				<div class="col px-3 bg-primary m-3 text-dark bg-opacity-50 position-relative border border-primary border-2 my-api-width-range">
+					<div class="rounded-circle px-1 border border-1 border-dark position-absolute top-0 start-100 translate-middle bg-warning text-center my-fs-14-px">
+						GET
+					</div>
+					<div class="d-flex justify-content-center">
+						<button type="button" class="btn btn-sm btn-dark my-2 text-truncate my-fs-18-px" onclick="queryBooksByCond();">
+							queryBooksByCond
+						</button>
+					</div>
+					<div class="py-3 px-2 my-2 border border-3 border-dark position-relative" style="height:210px;">
+						<div class="px-1 rounded-3 border border-2 border-dark position-absolute top-0 translate-middle bg-light text-center my-fs-14-px">Param</div>
+						<div id="book-cond-param" class="overflow-auto h-100">
+							<input type="text" class="par-1 form-control my-2" placeholder="nowPage">
+							<input type="text" class="par-2 form-control my-2" placeholder="pageSize">
+							<select class="par-3 form-select form-select-sm">
+								<option selected disabled>sortRule</option>
+								<option value="asc">asc</option>
+								<option value="desc">desc</option>
+							</select>
+							<input type="text" class="par-4 form-control my-2" placeholder="titleKw">
+							<input type="text" class="par-5 form-control my-2" placeholder="yearFrom">
+							<input type="text" class="par-6 form-control my-2" placeholder="yearTo">
+						</div>
+					</div>
+				</div>
+
+				<div class="col px-3 bg-success m-3 text-dark bg-opacity-50 position-relative border border-success border-2 my-api-width-range">
+					<div class="rounded-circle px-1 border border-1 border-dark position-absolute top-0 start-100 translate-middle bg-warning text-center my-fs-14-px">
+						POST
+					</div>
+					<div class="d-flex justify-content-center">
+						<button type="button" class="btn btn-sm btn-dark my-2 text-truncate my-fs-18-px" onclick="createBook();">
+							createBook
+						</button>
+					</div>
+					<div class="py-3 px-2 my-2 border border-3 border-dark position-relative" style="height:210px;">
+						<div class="px-1 rounded-3 border border-2 border-dark position-absolute top-0 translate-middle bg-light text-center my-fs-14-px">Param</div>
+						<div id="create-book-param" class="overflow-auto h-100">
+							<input type="text" class="par-1 form-control my-2" placeholder="mainTitle">
+							<input type="text" class="par-2 form-control my-2" placeholder="type">
+							<input type="text" class="par-3 form-control my-2" placeholder="acquiredYear">
+						</div>
+					</div>
+				</div>
+
+				<div class="col px-3 my-bg-orange my-border-orange m-3 text-dark position-relative my-api-width-range">
+					<div class="rounded-circle px-1 border border-1 border-dark position-absolute top-0 start-100 translate-middle bg-warning text-center my-fs-14-px">
+						PUT
+					</div>
+					<div class="d-flex justify-content-center">
+						<button type="button" class="btn btn-sm btn-dark my-2 text-truncate my-fs-18-px" onclick="replaceBookById();">
+							replaceBookById
+						</button>
+					</div>
+					<div class="py-3 px-2 my-2 border border-3 border-dark position-relative" style="height:210px;">
+						<div class="px-1 rounded-3 border border-2 border-dark position-absolute top-0 translate-middle bg-light text-center my-fs-14-px">Param</div>
+						<div id="replace-book-param" class="overflow-auto h-100">
+							<input type="text" class="par-1 form-control my-2" placeholder="bookId">
+							<input type="text" class="par-2 form-control my-2" placeholder="mainTitle">
+							<input type="text" class="par-3 form-control my-2" placeholder="type">
+							<input type="text" class="par-4 form-control my-2" placeholder="acquiredYear">
+						</div>
+					</div>
+				</div>
+
+				<div class="col px-3 my-bg-yellow my-border-yellow m-3 text-dark position-relative my-api-width-range">
+					<div class="rounded-circle px-1 border border-1 border-dark position-absolute top-0 start-100 translate-middle bg-warning text-center my-fs-14-px">
+						PATCH
+					</div>
+					<div class="d-flex justify-content-center">
+						<button type="button" class="btn btn-sm btn-dark my-2 text-truncate my-fs-18-px" onclick="updateBookById();">
+							updateBookById
+						</button>
+					</div>
+					<div class="py-3 px-2 my-2 border border-3 border-dark position-relative" style="height:210px;">
+						<div class="px-1 rounded-3 border border-2 border-dark position-absolute top-0 translate-middle bg-light text-center my-fs-14-px">Param</div>
+						<div id="update-book-param" class="overflow-auto h-100">
+							<input type="text" class="par-1 form-control my-2" placeholder="bookId">
+							<input type="text" class="par-2 form-control my-2" placeholder="mainTitle">
+							<input type="text" class="par-3 form-control my-2" placeholder="type">
+							<input type="text" class="par-4 form-control my-2" placeholder="acquiredYear">
+						</div>
+					</div>
+				</div>
+
+				<div class="col px-3 bg-danger m-3 text-dark bg-opacity-50 position-relative border border-danger border-2 my-api-width-range">
+					<div class="rounded-circle px-1 border border-1 border-dark position-absolute top-0 start-100 translate-middle bg-warning text-center my-fs-14-px">
+						DELETE
+					</div>
+					<div class="d-flex justify-content-center">
+						<button type="button" class="btn btn-sm btn-dark my-2 text-truncate my-fs-18-px" onclick="deleteBookById();">
+							deleteBookById
+						</button>
+					</div>
+					<div class="py-3 px-2 my-2 border border-3 border-dark position-relative" style="height:210px;">
+						<div class="px-1 rounded-3 border border-2 border-dark position-absolute top-0 translate-middle bg-light text-center my-fs-14-px">Param</div>
+						<div id="delete-book-param" class="overflow-auto h-100">
+							<input type="text" class="par-1 form-control my-2" placeholder="bookId">
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</body>
+<script src="/mine/js/base.js"></script>
+<script src="/mine/js/mySweetAlert.js"></script>
+<script src="/mine/js/myAJAX.js"></script>
+</html>
