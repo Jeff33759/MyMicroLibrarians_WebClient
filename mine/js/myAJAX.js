@@ -38,7 +38,7 @@ function loginFunc(role){
 		showSweetAlert(gSUCCESS,"login success!",genResStatusAlertTemplate(jqXHR.status));
 	}).fail(function (jqXHR, textStatus, errorThrown) {
 		showSweetAlert(gERROR,"login failed.",genResStatusAlertTemplate(jqXHR.status,jqXHR.responseJSON.msg));
-	});  //end ajax
+	}); 
 }
 
 function refreshAT() {
@@ -58,7 +58,7 @@ function refreshAT() {
 		removeTheMarkOfFakeData();
 	}).fail(function (jqXHR, textStatus, errorThrown) {
 		showSweetAlert(gERROR,"Execute failed.",genResStatusAlertTemplate(jqXHR.status,jqXHR.responseJSON.msg));
-	});  //end ajax
+	}); 
 }
 
 
@@ -80,7 +80,7 @@ function queryAllBooks(){
 		showSweetAlert(gSUCCESS,"Execute success!",genResStatusAlertTemplate(jqXHR.status));
 	}).fail(function (jqXHR, textStatus, errorThrown) {
 		showSweetAlert(gERROR,"Execute failed.",genResStatusAlertTemplate(jqXHR.status,jqXHR.responseJSON.msg));
-	});  //end ajax
+	});  
 }
 
 function queryBookById(){
@@ -100,7 +100,7 @@ function queryBookById(){
 		showSweetAlert(gSUCCESS,"Execute success!",genResStatusAlertTemplate(jqXHR.status));
 	}).fail(function (jqXHR, textStatus, errorThrown) {
 		showSweetAlert(gERROR,"Execute failed.",genResStatusAlertTemplate(jqXHR.status,jqXHR.responseJSON.msg));
-	});  //end ajax;
+	}); 
 }
 
 function queryBooksByCond(){
@@ -127,7 +127,7 @@ function queryBooksByCond(){
 		showSweetAlert(gSUCCESS,"Execute success!",genResStatusAlertTemplate(jqXHR.status));
 	}).fail(function (jqXHR, textStatus, errorThrown) {
 		showSweetAlert(gERROR,"Execute failed.",genResStatusAlertTemplate(jqXHR.status,jqXHR.responseJSON.msg));
-	});  //end ajax
+	}); 
 }
 
 
@@ -151,13 +151,13 @@ function createBook(){
 		headers : {
 			'Authorization' : accessToken
 		}
-	}).done(function (data, textStatus, jqXHR) { //1122
+	}).done(function (data, textStatus, jqXHR) { 
 		bookData = data;
 		showBookResult("s",jqXHR);
 		showSweetAlert(gSUCCESS,"Execute success!",genResStatusAlertTemplate(jqXHR.status));
 	}).fail(function (jqXHR, textStatus, errorThrown) {
 		showSweetAlert(gERROR,"Execute failed.",genResStatusAlertTemplate(jqXHR.status,jqXHR.responseJSON.msg));
-	});  //end ajax
+	}); 
 }
 
 
@@ -187,7 +187,7 @@ function replaceBookById(){
 		showSweetAlert(gSUCCESS,"Execute success!",genResStatusAlertTemplate(jqXHR.status));
 	}).fail(function (jqXHR, textStatus, errorThrown) {
 		showSweetAlert(gERROR,"Execute failed.",genResStatusAlertTemplate(jqXHR.status,jqXHR.responseJSON.msg));
-	});  //end ajax
+	});  
 }
 
 function updateBookById(){ 
@@ -218,7 +218,7 @@ function updateBookById(){
 		showSweetAlert(gSUCCESS,"Execute success!",genResStatusAlertTemplate(jqXHR.status));
 	}).fail(function (jqXHR, textStatus, errorThrown) {
 		showSweetAlert(gERROR,"Execute failed.",genResStatusAlertTemplate(jqXHR.status,jqXHR.responseJSON.msg));
-	});  //end ajax
+	});  
 }
 
 function deleteBookById(){
@@ -237,6 +237,6 @@ function deleteBookById(){
 		showSweetAlert(gSUCCESS,"Execute success!",genResStatusAlertTemplate(jqXHR.status));
 	}).fail(function (jqXHR, textStatus, errorThrown) {
 		showSweetAlert(gERROR,"Execute failed.",genResStatusAlertTemplate(jqXHR.status,jqXHR.responseJSON.msg));
-	});  //end ajax
+	});  
 }
 
