@@ -39,6 +39,7 @@ bookModal.addEventListener('show.bs.modal', function (event) {
 	}
 });
 
+let monitorModalE = new bootstrap.Modal(document.getElementById('monitor-modal'));
 
 
 function changeTokenInfoPage(page){

@@ -1,58 +1,74 @@
 .my-fs-14-px{
-    font-size: 14px;
+	font-size: 14px;
 }
 
 .my-fs-18-px{
-    font-size: 18px;
+	font-size: 18px;
 }
 
 .my-border-dashed{
-    border-style:dashed;
+	border-style:dashed;
 }
 
 .my-cursor-pointer{
-    cursor: pointer;
+	cursor: pointer;
 }
 
 .raw-token{
-    resize:none;
-    height:100px;
+	resize:none;
+	height:100px;
 }
 
 .my-shadow{
-    box-shadow: 3px -3px 10px 2px rgba(0,0,0,0.50);
+	box-shadow: 3px -3px 10px 2px rgba(0,0,0,0.50);
 }
 
 .my-bg-brown{
-    background-color: rgb(178, 48, 1);
+	background-color: rgb(178, 48, 1);
 }
 
 .my-bg-orange{
-    background-color: rgba(255, 132, 2, 0.7);
+	background-color: rgba(255, 132, 2, 0.7);
 }
 
 .my-border-orange{
-    border: 2px solid rgba(255, 132, 2);
+	border: 2px solid rgba(255, 132, 2);
 }
 
 .my-bg-yellow{
-    background-color: rgba(255, 247, 2, 0.7);
+	background-color: rgba(255, 247, 2, 0.7);
 }
 
 .my-border-yellow{
-    border: 2px solid rgba(255, 202, 0);
+	border: 2px solid rgba(255, 202, 0);
 }
 
 .my-word-wrap{
-    word-wrap: break-word;
+	word-wrap: break-word;
 }
 
 .my-api-width-range{
-    max-width: 250px !important;
-    min-width:200px !important;
+	max-width: 250px !important;
+	min-width:200px !important;
 }
 
+.my-accordion-btn{
+	--bs-bg-opacity: .4 !important;
+}
+
+.my-accordion-btn:hover{
+	box-shadow: 0 0 0 0 !important;
+	--bs-bg-opacity: .6 !important;
+}
+
+.my-accordion-btn:not(.collapsed){
+	box-shadow: 0 0 0 0 !important;
+	color: black !important;
+	--bs-bg-opacity: .8 !important;
+}
+
+
 #book-description{
-    resize:none;
-    height:70px;
+	resize:none;
+	height:70px;
 }

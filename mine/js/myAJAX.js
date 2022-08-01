@@ -240,3 +240,8 @@ function deleteBookById(){
 	});  
 }
 
+function showSystemMonitor(){
+	monitorModalE.show();
+	
+
+}
