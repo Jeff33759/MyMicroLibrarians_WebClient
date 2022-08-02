@@ -257,3 +257,69 @@ function resetBookResult(){
 	$("#book-block").html("");
 	$("#book-block").html("").removeClass("justify-content-center");
 }
+
+function loadDataIntoMonitorModal(data){
+	$("#monitor-accordion").html("");
+	let serviceArr = data.serviceList;
+	let str = "";
+	serviceArr.forEach(function(service, i){
+		str += 
+		`<div class="accordion-item">
+			<div class="accordion-header" id="heading${i}">
+				<div class="border ${backgroundColorSelecter(i)} accordion-button my-accordion-btn collapsed py-1 px-2" type="button" data-bs-toggle="collapse" data-bs-target="#collapse${i}" aria-expanded="false" aria-controls="collapse1">
+					<div class="d-flex align-items-center justify-content-between w-100">
+						<div>${service.name}</div>
+						<div class="${service.inService ? 'bg-success' : 'bg-danger'} rounded-circle me-2" style="height:20px;width:20px;" title="${service.inService ? 'In service' : 'Not in service'}"></div>
+					</div>
+				</div>
+			</div>
+			<div id="collapse${i}" class="accordion-collapse collapse" aria-labelledby="heading${i}">
+				<div class="accordion-body">
+					<table class="table table-bordered my-fs-14-px text-break text-center">
+						<thead class="bg-light">
+							<tr>
+								<th>instance</th>
+								<th class="w-50">enabled</th>
+							</tr>
+						</thead>
+						<tbody>`;
+						
+		service.cluster.forEach(function(ins,index){
+			str +=
+							`<tr>
+								<td>${ins.name}</td>
+								<td class="d-flex justify-content-center align-items-center">
+									<div class="fst-italic ${ins.enabled ? 'text-success' : 'text-danger'}">
+										${ins.enabled}
+									</div>
+									<div class="${ins.enabled ? 'bg-success' : 'bg-danger'} rounded-circle ms-2" style="height:12px; width:12px;" title="In service"></div>
+								</td>
+							</tr>`
+		}); // service.cluster.forEach End
+		str += 
+						`</tbody>
+					</table>
+				</div>
+			</div>
+		</div>`;
+	}); //serviceArr.forEach End
+	
+	$("#monitor-accordion").append(str);
+}
+
+function backgroundColorSelecter(n){
+	switch (n) { 
+		case 0: {
+			return "bg-warning";
+		}
+		case 1: {
+			return "bg-info";
+		}
+		case 2: {
+			return "bg-light";
+		}
+		default: {
+			return "bg-light";
+		}
+	}
+}

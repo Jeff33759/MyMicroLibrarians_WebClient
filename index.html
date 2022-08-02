@@ -211,94 +211,18 @@
 		<div class="modal fade" id="monitor-modal" tabindex="-1" aria-labelledby="monitor-modal-label" aria-hidden="true">
 			<div class="modal-dialog">
 				<div class="modal-content">
-					<div class="modal-header py-1 px-2 justify-content-center bg-primary text-white">
+					<div class="modal-header py-1 px-2 justify-content-center bg-primary text-white bg-opacity-75">
 						<h5 class="modal-title" id="monitor-modal-label">System monitor</h5>
 					</div>
-					<div class="modal-body p-3">
-						
-						<div class="accordion" id="monitor-accordion">
-							
-							<div class="accordion-item">
-								<div class="accordion-header" id="headingOne">
-									<div class="border bg-warning accordion-button my-accordion-btn collapsed py-1 px-2" type="button" data-bs-toggle="collapse" data-bs-target="#collapse1" aria-expanded="false" aria-controls="collapse1">
-										<div class="d-flex align-items-center justify-content-between w-100">
-											<div>AuthN-Service</div>
-											<div class="bg-danger rounded-circle me-2" style="height:20px;width:20px;" title="Not in service"></div>
-										</div>
-									</div>
-								</div>
-								<div id="collapse1" class="accordion-collapse collapse" aria-labelledby="headingOne">
-									<div class="accordion-body">
-										
-										<table class="table table-bordered my-fs-14-px text-break text-center">
-											<thead class="bg-light">
-												<tr>
-													<th>instance</th>
-													<th class="w-50">enabled</th>
-												</tr>
-											</thead>
-											<tbody>
-												<tr>
-													<td>Authentication-Server1</td>
-													<td class="d-flex justify-content-center align-items-center">
-														<div class="fst-italic">
-															true
-														</div>
-														<div class="bg-success rounded-circle ms-2" style="height:12px; width:12px;" title="In service"></div>
-													</td>
-												</tr>
-											</tbody>
-										</table>
-
-									</div>
-								</div>
-							</div>
-
-
-							<div class="accordion-item">
-								<div class="accordion-header" id="headingOne">
-									<div class="border bg-info accordion-button my-accordion-btn collapsed py-1 px-2" type="button" data-bs-toggle="collapse" data-bs-target="#collapse2" aria-expanded="false" aria-controls="collapse2">
-										<div class="d-flex align-items-center justify-content-between w-100">
-											<div>AuthN-Service</div>
-											<div class="bg-danger rounded-circle me-2" style="height:20px;width:20px;" title="Not in service"></div>
-										</div>
-									</div>
-								</div>
-								<div id="collapse2" class="accordion-collapse collapse" aria-labelledby="headingOne">
-									<div class="accordion-body">
-										
-										<table class="table table-bordered my-fs-14-px text-break text-center">
-											<thead class="bg-light">
-												<tr>
-													<th>instance</th>
-													<th class="w-50">enabled</th>
-												</tr>
-											</thead>
-											<tbody>
-												<tr>
-													<td>Authentication-Server1</td>
-													<td class="d-flex justify-content-center align-items-center">
-														<div class="fst-italic">
-															true
-														</div>
-														<div class="bg-success rounded-circle ms-2" style="height:12px; width:12px;" title="In service"></div>
-													</td>
-												</tr>
-											</tbody>
-										</table>
-
-									</div>
-								</div>
-							</div>
-		
-
+					<div id="monitor-body" class="modal-body px-3 py-4">	
+						<div class="accordion" id="monitor-accordion">				
 						</div>
-
-
 					</div>
 				</div>
 			</div>
 		</div>
+		
+
 		
 		<div class="row justify-content-center">
 			<div class="col-sm-4 col-8">
@@ -309,7 +233,6 @@
 		</div>
 
 		<div id="auth-and-result" class="row mt-5">
-
 			<div id="auth-block" class="col-lg-5 col-12 position-relative">
 
 				<div class="px-1 border border-2 border-dark position-absolute top-0 start-50 translate-middle bg-white text-center fs-6">

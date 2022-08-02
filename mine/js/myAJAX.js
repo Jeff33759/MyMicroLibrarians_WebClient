@@ -26,7 +26,8 @@ function loginFunc(role){
 		crossDomain: true, 
 		dataType :  'json',
 		contentType: 'application/json',
-		data: jsonStr
+		data: jsonStr,
+		timeout:1000
 	}).done(function (data, textStatus, jqXHR) { 
 		refreshToken = data.refreshToken;
 		accessToken = data.accessToken;
@@ -37,7 +38,12 @@ function loginFunc(role){
 		removeTheMarkOfFakeData();
 		showSweetAlert(gSUCCESS,"login success!",genResStatusAlertTemplate(jqXHR.status));
 	}).fail(function (jqXHR, textStatus, errorThrown) {
-		showSweetAlert(gERROR,"login failed.",genResStatusAlertTemplate(jqXHR.status,jqXHR.responseJSON.msg));
+		if(textStatus == "timeout" || jqXHR.status == 0){
+			let timeoutMsg = "Connect to gateway timeout, please check if the server is started.";
+			showSweetAlert(gERROR,"Connection failed.",timeoutMsg);
+		}else{
+			showSweetAlert(gERROR,"Execute failed.",genResStatusAlertTemplate(jqXHR.status,jqXHR.responseJSON.msg));
+		}
 	}); 
 }
 
@@ -47,6 +53,7 @@ function refreshAT() {
 		type: 'post' , 
 		crossDomain: true, 
 		dataType :  'json',  
+		timeout:1000,
 		headers : {
 			'Authorization' : refreshToken
 		}
@@ -57,7 +64,12 @@ function refreshAT() {
 		setValueIntoATDetails();
 		removeTheMarkOfFakeData();
 	}).fail(function (jqXHR, textStatus, errorThrown) {
-		showSweetAlert(gERROR,"Execute failed.",genResStatusAlertTemplate(jqXHR.status,jqXHR.responseJSON.msg));
+		if(textStatus == "timeout" || jqXHR.status == 0){
+			let timeoutMsg = "Connect to gateway timeout, please check if the server is started.";
+			showSweetAlert(gERROR,"Connection failed.",timeoutMsg);
+		}else{
+			showSweetAlert(gERROR,"Execute failed.",genResStatusAlertTemplate(jqXHR.status,jqXHR.responseJSON.msg));
+		}
 	}); 
 }
 
@@ -73,14 +85,20 @@ function queryAllBooks(){
 		url: encodeURI(`http://localhost:8080/book?${queryStr}`),
 		type: 'get' , 
 		crossDomain: true, 
-		dataType :  'json' 
+		dataType :  'json',
+		timeout:1000
 	}).done(function (data, textStatus, jqXHR) {
 		bookData = data.result;
 		showBookResult("m",jqXHR);
 		showSweetAlert(gSUCCESS,"Execute success!",genResStatusAlertTemplate(jqXHR.status));
-	}).fail(function (jqXHR, textStatus, errorThrown) {
-		showSweetAlert(gERROR,"Execute failed.",genResStatusAlertTemplate(jqXHR.status,jqXHR.responseJSON.msg));
-	});  
+	}).fail(function (jqXHR, textStatus) {
+		if(textStatus == "timeout" || jqXHR.status == 0){
+			let timeoutMsg = "Connect to gateway timeout, please check if the server is started.";
+			showSweetAlert(gERROR,"Connection failed.",timeoutMsg);
+		}else{
+			showSweetAlert(gERROR,"Execute failed.",genResStatusAlertTemplate(jqXHR.status,jqXHR.responseJSON.msg));
+		}
+	});
 }
 
 function queryBookById(){
@@ -91,6 +109,7 @@ function queryBookById(){
 		type: 'get' , 
 		crossDomain: true, 
 		dataType :  'json',  
+		timeout:1000,
 		headers : {
 			'Authorization' : accessToken
 		}
@@ -99,7 +118,12 @@ function queryBookById(){
 		showBookResult("s",jqXHR);
 		showSweetAlert(gSUCCESS,"Execute success!",genResStatusAlertTemplate(jqXHR.status));
 	}).fail(function (jqXHR, textStatus, errorThrown) {
-		showSweetAlert(gERROR,"Execute failed.",genResStatusAlertTemplate(jqXHR.status,jqXHR.responseJSON.msg));
+		if(textStatus == "timeout" || jqXHR.status == 0){
+			let timeoutMsg = "Connect to gateway timeout, please check if the server is started.";
+			showSweetAlert(gERROR,"Connection failed.",timeoutMsg);
+		}else{
+			showSweetAlert(gERROR,"Execute failed.",genResStatusAlertTemplate(jqXHR.status,jqXHR.responseJSON.msg));
+		}
 	}); 
 }
 
@@ -118,6 +142,7 @@ function queryBooksByCond(){
 		type: 'get' , 
 		crossDomain: true, 
 		dataType :  'json',  
+		timeout:1000,
 		headers : {
 			'Authorization' : accessToken
 		},
@@ -126,7 +151,12 @@ function queryBooksByCond(){
 		showBookResult("m",jqXHR);
 		showSweetAlert(gSUCCESS,"Execute success!",genResStatusAlertTemplate(jqXHR.status));
 	}).fail(function (jqXHR, textStatus, errorThrown) {
-		showSweetAlert(gERROR,"Execute failed.",genResStatusAlertTemplate(jqXHR.status,jqXHR.responseJSON.msg));
+		if(textStatus == "timeout" || jqXHR.status == 0){
+			let timeoutMsg = "Connect to gateway timeout, please check if the server is started.";
+			showSweetAlert(gERROR,"Connection failed.",timeoutMsg);
+		}else{
+			showSweetAlert(gERROR,"Execute failed.",genResStatusAlertTemplate(jqXHR.status,jqXHR.responseJSON.msg));
+		}
 	}); 
 }
 
@@ -148,6 +178,7 @@ function createBook(){
 		dataType :  'json',  
 		contentType: 'application/json',
 		data: jsonStr, 
+		timeout:1000,
 		headers : {
 			'Authorization' : accessToken
 		}
@@ -156,7 +187,12 @@ function createBook(){
 		showBookResult("s",jqXHR);
 		showSweetAlert(gSUCCESS,"Execute success!",genResStatusAlertTemplate(jqXHR.status));
 	}).fail(function (jqXHR, textStatus, errorThrown) {
-		showSweetAlert(gERROR,"Execute failed.",genResStatusAlertTemplate(jqXHR.status,jqXHR.responseJSON.msg));
+		if(textStatus == "timeout" || jqXHR.status == 0){
+			let timeoutMsg = "Connect to gateway timeout, please check if the server is started.";
+			showSweetAlert(gERROR,"Connection failed.",timeoutMsg);
+		}else{
+			showSweetAlert(gERROR,"Execute failed.",genResStatusAlertTemplate(jqXHR.status,jqXHR.responseJSON.msg));
+		}
 	}); 
 }
 
@@ -178,6 +214,7 @@ function replaceBookById(){
 		dataType :  'json', 
 		contentType: 'application/json',
 		data: jsonStr,  
+		timeout:1000,
 		headers : {
 			'Authorization' : accessToken
 		}
@@ -186,7 +223,12 @@ function replaceBookById(){
 		showBookResult("s",jqXHR);
 		showSweetAlert(gSUCCESS,"Execute success!",genResStatusAlertTemplate(jqXHR.status));
 	}).fail(function (jqXHR, textStatus, errorThrown) {
-		showSweetAlert(gERROR,"Execute failed.",genResStatusAlertTemplate(jqXHR.status,jqXHR.responseJSON.msg));
+		if(textStatus == "timeout" || jqXHR.status == 0){
+			let timeoutMsg = "Connect to gateway timeout, please check if the server is started.";
+			showSweetAlert(gERROR,"Connection failed.",timeoutMsg);
+		}else{
+			showSweetAlert(gERROR,"Execute failed.",genResStatusAlertTemplate(jqXHR.status,jqXHR.responseJSON.msg));
+		}
 	});  
 }
 
@@ -209,6 +251,7 @@ function updateBookById(){
 		dataType :  'json', 
 		contentType: 'application/json',
 		data: jsonStr,  
+		timeout:1000,
 		headers : {
 			'Authorization' : accessToken
 		}
@@ -217,7 +260,12 @@ function updateBookById(){
 		showBookResult("s",jqXHR);
 		showSweetAlert(gSUCCESS,"Execute success!",genResStatusAlertTemplate(jqXHR.status));
 	}).fail(function (jqXHR, textStatus, errorThrown) {
-		showSweetAlert(gERROR,"Execute failed.",genResStatusAlertTemplate(jqXHR.status,jqXHR.responseJSON.msg));
+		if(textStatus == "timeout" || jqXHR.status == 0){
+			let timeoutMsg = "Connect to gateway timeout, please check if the server is started.";
+			showSweetAlert(gERROR,"Connection failed.",timeoutMsg);
+		}else{
+			showSweetAlert(gERROR,"Execute failed.",genResStatusAlertTemplate(jqXHR.status,jqXHR.responseJSON.msg));
+		}
 	});  
 }
 
@@ -229,6 +277,7 @@ function deleteBookById(){
 		type: 'delete' , 
 		crossDomain: true, 
 		dataType :  'json', 
+		timeout:1000,
 		headers : {
 			'Authorization' : accessToken
 		}
@@ -236,12 +285,35 @@ function deleteBookById(){
 		resetBookResult();
 		showSweetAlert(gSUCCESS,"Execute success!",genResStatusAlertTemplate(jqXHR.status));
 	}).fail(function (jqXHR, textStatus, errorThrown) {
-		showSweetAlert(gERROR,"Execute failed.",genResStatusAlertTemplate(jqXHR.status,jqXHR.responseJSON.msg));
+		console.log(textStatus)
+		if(textStatus == "timeout" || jqXHR.status == 0){
+			let timeoutMsg = "Connect to gateway timeout, please check if the server is started.";
+			showSweetAlert(gERROR,"Connection failed.",timeoutMsg);
+		}else{
+			showSweetAlert(gERROR,"Execute failed.",genResStatusAlertTemplate(jqXHR.status,jqXHR.responseJSON.msg));
+		}
 	});  
 }
 
 function showSystemMonitor(){
-	monitorModalE.show();
-	
-
+	$.ajax({
+		url: encodeURI(`http://localhost:8080/gateway/monitor`),
+		type: 'get' , 
+		crossDomain: true, 
+		dataType :  'json',
+		timeout:1000,
+		headers : {
+			'Authorization' : accessToken
+		}
+	}).done(function (data, textStatus, jqXHR) {
+		loadDataIntoMonitorModal(data);
+		monitorModalE.show();
+	}).fail(function (jqXHR, textStatus, errorThrown) {
+		if(textStatus == "timeout" || jqXHR.status == 0){
+			let timeoutMsg = "Connect to gateway timeout, please check if the server is started.";
+			showSweetAlert(gERROR,"Connection failed.",timeoutMsg);
+		}else{
+			showSweetAlert(gERROR,"Execute failed.",genResStatusAlertTemplate(jqXHR.status,jqXHR.responseJSON.msg));
+		}
+	});
 }
