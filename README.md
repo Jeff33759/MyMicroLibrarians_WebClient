@@ -6,6 +6,7 @@
 
 測試用的網頁客戶端，用來對分散式館藏後端系統進行簡易的DEMO，以及初步的End-to-end測試。
 
+DEMO影片: https://www.youtube.com/watch?v=FfudSmjdIug
 <br><br>
 ## 我做到了什麼
 
