@@ -14,7 +14,7 @@ DEMO影片: https://www.youtube.com/watch?v=FfudSmjdIug
 
 2. 將RefreshToken與AccessToken的標頭與公開內容以Base64解碼回可閱讀的資料，取代傳統以Session-Cookie紀錄狀態的做法。
 
-3. 使用Bootstrap-5.1.1製作RWD頁面，解析度的寬度支援至最小300px。
+3. 使用Bootstrap-5.1.1實現RWD，解析度的寬度支援至最小300px。
 
 4. 使用SweetAlert2的套件，讓Alert功能更加美觀。
 
